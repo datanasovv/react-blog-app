@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { ThemeContext } from "../ThemeContext";
 
 export default function Navbar() {
@@ -9,7 +9,7 @@ export default function Navbar() {
     e.preventDefault();
     navigate(`/search/${query}`);
   };
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { theme, toggleTheme, user } = useContext(ThemeContext);
   return (
     <div className="header">
       <div className="header-item">
@@ -29,7 +29,20 @@ export default function Navbar() {
         </form>
       </div>
       <div className="header-item">
-        <a href="/login">Login</a>
+        {user ? (
+          <>
+            <NavLink to="/profile" activeclassname="active">
+              {user.name}
+            </NavLink>
+            <NavLink to="/create" activeclassname="active">
+              Create Post
+            </NavLink>
+          </>
+        ) : (
+          <NavLink to="/login" activeclassname="active">
+            Login
+          </NavLink>
+        )}
         <button onClick={toggleTheme}>
           {theme === "light" ? "Theme:light" : "Theme:dark"}
         </button>
